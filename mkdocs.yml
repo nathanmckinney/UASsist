@@ -46,3 +46,6 @@ nav:
     - Report Issues: https://github.com/nathanmckinney/uassist/issues
     - API Reference:
           - uassist module: uassist.md
+    - Notebooks:
+          - notebooks/imgtag_demo.ipynb
+          - notebooks/ipyleaf_intro.ipynb
