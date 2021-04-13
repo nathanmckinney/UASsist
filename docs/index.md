@@ -13,7 +13,8 @@
 
 ## Features
 
--   TODO
+-   Reads image metadata and displays information important for UAS surveys
+-   Displays photo coordinates on a map embedded in a notebook
 
 ## Credits
 
