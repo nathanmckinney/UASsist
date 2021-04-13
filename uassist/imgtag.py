@@ -1,3 +1,5 @@
+"""imagetag module
+"""
 def imgtag(imgpath):
     """Extracts EXIF metadata from photo and outputs relevant information
 
