@@ -1,4 +1,12 @@
 def imgtag(imgpath):
+    """Extracts EXIF metadata from photo and outputs relevant information
+
+    Args:
+        imgpath (str): path to image file
+
+    Returns:
+        dict: metadata information
+    """    
 
     import exifread
 

@@ -1,4 +1,5 @@
 """Main module."""
+
 import os
 import ee
 import ipyleaflet
@@ -8,6 +9,11 @@ from .imgtag import imgtag
 from .common import ee_initialize
 
 class Map(ipyleaflet.Map):
+    """Map class inherits the ipyleaflet map class
+
+    Args:
+        ipyleaflet (ipyleaflet.Map): An ipyleaflet map
+    """    
     def __init__(self, **kwargs):
 
         if "center" not in kwargs:
@@ -58,6 +64,17 @@ class Map(ipyleaflet.Map):
                 self.add_layer(layer)
 
     def add_geojson(self, in_geojson, style=None,layer_name="Untitled"):
+        """adds a geojson file to the map.
+
+        Args:
+            in_geojson (str): The file path to the input geoJSON.
+            style (dict, optional): the style for the geojson layer. Defaults to None.
+            layer_name (str, optional): the layer name for the geojson layer. Defaults to "Untitled".
+
+        Raises:
+            FileNotFoundError: If the provided file path does not exist.
+            TypeError: If the input geojson is not a str of dict.
+        """        
 
         import json
 
@@ -111,6 +128,19 @@ class Map(ipyleaflet.Map):
 
 
 def shp_to_geojson(in_shp, out_geojson=None):
+    """converts a shp to geojson
+
+    Args:
+        in_shp (str): the file path to the input shp
+        out_geojson (str, optional): the file path to the output geojson. Defaults to None.
+
+    Raises:
+        FileNotFoundError: if input shp does not exist
+
+    Returns:
+        dict: the dictionary of the geojson.
+    """    
+    
     import json
     import shapefile
 
