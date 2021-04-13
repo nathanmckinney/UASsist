@@ -93,6 +93,22 @@ class Map(ipyleaflet.Map):
         geojson = shp_to_geojson(in_shp)
         self.add_geojson(geojson, style=style, layer_name=layer_name)
 
+    def add_ee_layer(
+        self, ee_object, vis_params={}, name=None, shown=True, opacity=1.0):
+        """Adds a given EE object to the map as a layer.
+        Args:
+            ee_object (Collection|Feature|Image|MapId): The object to add to the map.
+            vis_params (dict, optional): The visualization parameters. Defaults to {}.
+            name (str, optional): The name of the layer. Defaults to 'Layer N'.
+            shown (bool, optional): A flag indicating whether the layer should be on by default. Defaults to True.
+            opacity (float, optional): The layer's opacity represented as a number between 0 and 1. Defaults to 1.
+        """
+
+        ee_layer = ee_tile_layer(ee_object, vis_params, name, shown, opacity)
+        self.add_layer(ee_layer)
+
+    addLayer = add_ee_layer
+
 
 def shp_to_geojson(in_shp, out_geojson=None):
     import json
@@ -115,22 +131,6 @@ def shp_to_geojson(in_shp, out_geojson=None):
             os.makedires(out_dir)
         with open(out_geojson, "w") as f:
             f.write(json.dumps(geojson))
-
-def add_ee_layer(
-        self, ee_object, vis_params={}, name=None, shown=True, opacity=1.0):
-        """Adds a given EE object to the map as a layer.
-        Args:
-            ee_object (Collection|Feature|Image|MapId): The object to add to the map.
-            vis_params (dict, optional): The visualization parameters. Defaults to {}.
-            name (str, optional): The name of the layer. Defaults to 'Layer N'.
-            shown (bool, optional): A flag indicating whether the layer should be on by default. Defaults to True.
-            opacity (float, optional): The layer's opacity represented as a number between 0 and 1. Defaults to 1.
-        """
-
-        ee_layer = ee_tile_layer(ee_object, vis_params, name, shown, opacity)
-        self.add_layer(ee_layer)
-
-    addLayer = add_ee_layer
 
 def ee_tile_layer(
     ee_object, vis_params={}, name="Layer untitled", shown=True, opacity=1.0):

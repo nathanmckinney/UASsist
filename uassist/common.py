@@ -1,5 +1,5 @@
-    """A module with some common functions to be used with ipyleaflet and folio
-    """
+"""A module with some common functions to be used with ipyleaflet and folio
+"""
 
 import os
 import ee
