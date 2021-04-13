@@ -5,3 +5,4 @@ __email__ = 'mckinney@utk.edu'
 __version__ = '0.0.2'
 
 from .uassist import *
+from .imgtag import *

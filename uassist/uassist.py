@@ -3,6 +3,7 @@ import os
 import ipyleaflet
 
 from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer
+import imgtag
 
 class Map(ipyleaflet.Map):
     def __init__(self, **kwargs):
