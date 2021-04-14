@@ -4,7 +4,7 @@ import os
 import ee
 import ipyleaflet
 
-from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer
+from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker
 from .imgtag import imgtag
 from .common import ee_initialize
 
@@ -140,7 +140,7 @@ def shp_to_geojson(in_shp, out_geojson=None):
     Returns:
         dict: the dictionary of the geojson.
     """    
-    
+
     import json
     import shapefile
 

@@ -11,16 +11,21 @@ def imgtag(imgpath):
     """    
 
     import exifread
+    from exifread.utils import get_gps_coords
 
     # Open image file for reading (must be in binary mode)
     f = open(imgpath, 'rb')
 
     # Return Exif tags
     tags = exifread.process_file(f, details=False)
+    gps = get_gps_coords(tags)
 
-    longitude = tags["GPS GPSLongitude"]
-    latitude = tags["GPS GPSLatitude"]
-    altitude = tags["GPS GPSAltitude"]
+    latdd = round(gps[0], 7)
+    longdd = round(gps[1], 7)
+    
+    gpsaltval = [c.decimal() for c in tags["GPS GPSAltitude"].values]
+    gpsalt = round(gpsaltval[0], 2)
+
     date = tags["Image DateTime"]
     imgh = tags["EXIF ExifImageLength"]
     imgw = tags["EXIF ExifImageWidth"]
@@ -29,14 +34,8 @@ def imgtag(imgpath):
     print("UAS Model: " + str(model))
     print("Capture Date: " + str(date))
     print("Image resolution: " + str(imgh) + " x " + str(imgw))
-    print("Longitude: " + str(longitude))
-    print("Latitude: " + str(latitude))
-    
-    longstr = str(longitude)
-    long = longstr[1:3]
+    print("Latitude: " + str(latdd))
+    print("Longitude: " + str(longdd))
+    print("Altitude: " + str(gpsalt) + " meters")
 
-    latstr = str(latitude)
-    lat = latstr[1:3]
-
-
-    return [lat, long]
+    return [latdd, longdd, gpsalt]
