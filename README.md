@@ -16,6 +16,7 @@
 -   Reads image metadata and displays information important for UAS surveys
 -   Displays photo coordinates on a map embedded in a notebook
 
+![Demo](https://i.imgur.com/5GLSavr.jpg)
 ## Credits
 
 This package was created with [Cookiecutter](https://github.com/cookiecutter/cookiecutter) and the [giswqs/pypackage](https://github.com/giswqs/pypackage) project template.
