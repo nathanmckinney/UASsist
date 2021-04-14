@@ -1,7 +1,7 @@
 # uassist
 
 
-[![image](https://img.shields.io/pypi/v/uassist.svg)](https://pypi.python.org/pypi/uassist)
+[![image](https://img.shields.io/pypi/v/uassist.svg)](https://pypi.python.org/pypi/uassist) [![Anaconda-Server Badge](https://anaconda.org/conda-forge/uassist/badges/version.svg)](https://anaconda.org/conda-forge/uassist)
 
 
 **UASsist: Assistant for Unmanned Aircraft System photogrammetry for surveying and mapping applications. **
