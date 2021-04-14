@@ -29,10 +29,11 @@ def imgtag(imgpath):
     date = tags["Image DateTime"]
     imgh = tags["EXIF ExifImageLength"]
     imgw = tags["EXIF ExifImageWidth"]
+    make = tags["Image Make"]
     model = tags["Image Model"]
 
-    print("UAS Model: " + str(model))
-    print("Capture Date: " + str(date))
+    print("UAS Make & Model: " + str(make) + " " + str(model))
+    print("Capture Date & Time: " + str(date))
     print("Image resolution: " + str(imgh) + " x " + str(imgw))
     print("Latitude: " + str(latdd))
     print("Longitude: " + str(longdd))
