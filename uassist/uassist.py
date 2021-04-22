@@ -7,6 +7,7 @@ import ipyleaflet
 from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker
 from .imgtag import imgtag, imgdir
 from .common import ee_initialize
+from .toolbar import main_toolbar
 
 class Map(ipyleaflet.Map):
     """Map class inherits the ipyleaflet map class
@@ -37,6 +38,8 @@ class Map(ipyleaflet.Map):
         self.add_control(DrawControl(position="topleft"))
         self.add_control(MeasureControl())
         self.add_control(ScaleControl(position="bottomleft"))
+
+        main_toolbar(self)
 
         if "google_map" not in kwargs:
             layer = TileLayer(
