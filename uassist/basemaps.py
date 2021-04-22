@@ -18,6 +18,7 @@ import ipyleaflet.basemaps as ipybasemaps
 
 
 _ee_basemaps = {
+
     "ROADMAP": TileLayer(
         url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
         attribution="Google",
@@ -37,11 +38,6 @@ _ee_basemaps = {
         url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
         attribution="Google",
         name="Google Satellite",
-    ),
-    "ESRI": TileLayer(
-        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
-        attribution="Esri",
-        name="Esri Satellite",
     ),
     "Esri Ocean": TileLayer(
         url="https://services.arcgisonline.com/ArcGIS/rest/services/Ocean/World_Ocean_Base/MapServer/tile/{z}/{y}/{x}",
@@ -104,25 +100,10 @@ _ee_basemaps = {
         format="image/png",
         transparent=True,
     ),
-    "Google Maps": TileLayer(
-        url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
-        attribution="Google",
-        name="Google Maps",
-    ),
-    "Google Satellite": TileLayer(
-        url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
-        attribution="Google",
-        name="Google Satellite",
-    ),
-    "Google Terrain": TileLayer(
-        url="https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
-        attribution="Google",
-        name="Google Terrain",
-    ),
-    "Google Satellite Hybrid": TileLayer(
-        url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
-        attribution="Google",
-        name="Google Satellite",
+    "OpenStreetMap": TileLayer(
+        url="https://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+        attribution="OSM",
+        name="OpenStreetMap",
     ),
     "NLCD 2016 CONUS Land Cover": WMSLayer(
         url="https://www.mrlc.gov/geoserver/mrlc_display/NLCD_2016_Land_Cover_L48/wms?",
@@ -207,6 +188,7 @@ _ee_basemaps = {
 }
 
 # Adds ipyleaflet basemaps
+"""
 for item in ipybasemaps.values():
     try:
         name = item["name"]
@@ -223,3 +205,4 @@ basemap_tiles = Box(_ee_basemaps, frozen_box=True)
 basemaps = Box(
     dict(zip(list(_ee_basemaps.keys()), list(_ee_basemaps.keys()))), frozen_box=True
 )
+"""

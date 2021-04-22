@@ -34,8 +34,8 @@ class Map(ipyleaflet.Map):
             self.layout.height = kwargs["height"]
 
         self.add_control(FullScreenControl())
-        self.add_control(LayersControl(position="topright"))
-        self.add_control(DrawControl(position="topleft"))
+        #self.add_control(LayersControl(position="topright"))
+        #self.add_control(DrawControl(position="topleft"))
         self.add_control(MeasureControl())
         self.add_control(ScaleControl(position="bottomleft"))
 

@@ -4,52 +4,6 @@ from ipyleaflet import WidgetControl
 from ipyfilechooser import FileChooser
 from IPython.display import display
 
-def change_basemap(m):
-    """Widget for change basemaps.
-    Args:
-        m (object): geemap.Map()
-    """
-    from .basemaps import _ee_basemaps
-
-    dropdown = widgets.Dropdown(
-        options=list(_ee_basemaps.keys()),
-        value="ROADMAP",
-        layout=widgets.Layout(width="200px")
-        # description="Basemaps",
-    )
-
-    close_btn = widgets.Button(
-        icon="times",
-        tooltip="Close the basemap widget",
-        button_style="primary",
-        layout=widgets.Layout(width="32px"),
-    )
-
-    basemap_widget = widgets.HBox([dropdown, close_btn])
-
-    def on_click(change):
-        basemap_name = change["new"]
-
-        if len(m.layers) == 1:
-            old_basemap = m.layers[0]
-        else:
-            old_basemap = m.layers[1]
-        m.substitute_layer(old_basemap, _ee_basemaps[basemap_name])
-
-    dropdown.observe(on_click, "value")
-
-    def close_click(change):
-        m.toolbar_reset()
-        if m.basemap_ctrl is not None and m.basemap_ctrl in m.controls:
-            m.remove_control(m.basemap_ctrl)
-        basemap_widget.close()
-
-    close_btn.on_click(close_click)
-
-    basemap_control = WidgetControl(widget=basemap_widget, position="topright")
-    m.add_control(basemap_control)
-    m.basemap_ctrl = basemap_control
-
 def main_toolbar(m):
 
     padding = "0px 0px 0px 5px"  # upper, right, bottom, left
@@ -141,7 +95,7 @@ def main_toolbar(m):
 
     dropdown_basemap = widgets.Dropdown(
         options=list(_ee_basemaps.keys()),
-        value="ROADMAP",
+        value="HYBRID",
         layout=widgets.Layout(width="200px"),
         description="Basemaps",
     )
@@ -175,6 +129,7 @@ def main_toolbar(m):
 
     basemap_control = WidgetControl(widget=basemap_widget, position="topright")
     m.basemap_ctrl = basemap_control  
+
 
     def tool_click(b):    
         with output:
