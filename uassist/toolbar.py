@@ -4,7 +4,6 @@ from ipyleaflet import WidgetControl, TileLayer, WMSLayer, basemap_to_tiles
 from ipyfilechooser import FileChooser
 import ipyleaflet.basemaps as ipybasemaps
 from IPython.display import display
-from box import Box
 
 
 ua_basemaps = {
