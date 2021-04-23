@@ -49,5 +49,5 @@ nav:
           - imgtag module: imgtag.md
     - Notebooks:
           - notebooks/imgtag_demo.ipynb
-          - notebooks/ipyleaf_intro.ipynb
+          - notebooks/imgdir_demo.ipynb
           - notebooks/earthengine_intro.ipynb
