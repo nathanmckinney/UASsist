@@ -1,8 +1,113 @@
 import os
 import ipywidgets as widgets
-from ipyleaflet import WidgetControl
+from ipyleaflet import WidgetControl, TileLayer, WMSLayer, basemap_to_tiles
 from ipyfilechooser import FileChooser
+import ipyleaflet.basemaps as ipybasemaps
 from IPython.display import display
+from box import Box
+
+
+ua_basemaps = {
+    "HYBRID": TileLayer(
+        url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}",
+        attribution="Google",
+        name="Google Satellite Hybrid",
+    ),
+    "ROADMAP": TileLayer(
+        url="https://mt1.google.com/vt/lyrs=m&x={x}&y={y}&z={z}",
+        attribution="Google",
+        name="Google Maps",
+    ),
+    "SATELLITE": TileLayer(
+        url="https://mt1.google.com/vt/lyrs=s&x={x}&y={y}&z={z}",
+        attribution="Google",
+        name="Google Satellite",
+    ),
+    "TERRAIN": TileLayer(
+        url="https://mt1.google.com/vt/lyrs=p&x={x}&y={y}&z={z}",
+        attribution="Google",
+        name="Google Terrain",
+    ),
+    "Esri Satellite": TileLayer(
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}",
+        attribution="Esri",
+        name="Esri Satellite",
+    ),
+    "Esri Streetmap": TileLayer(
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Street_Map/MapServer/tile/{z}/{y}/{x}",
+        attribution="Esri",
+        name="Esri Streetmap",
+    ),
+    "Esri Terrain": TileLayer(
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/World_Terrain_Base/MapServer/tile/{z}/{y}/{x}",
+        attribution="Esri",
+        name="Esri Terrain",
+    ),
+    "Esri Transportation": TileLayer(
+        url="https://server.arcgisonline.com/ArcGIS/rest/services/Reference/World_Transportation/MapServer/tile/{z}/{y}/{x}",
+        attribution="Esri",
+        name="Esri Transportation",
+    ),
+    "Esri Topo World": TileLayer(
+        url="https://services.arcgisonline.com/ArcGIS/rest/services/World_Topo_Map/MapServer/tile/{z}/{y}/{x}",
+        attribution="Esri",
+        name="Esri Topo World",
+    ),
+    "FWS NWI Wetlands": WMSLayer(
+        url="https://www.fws.gov/wetlands/arcgis/services/Wetlands/MapServer/WMSServer?",
+        layers="1",
+        name="FWS NWI Wetlands",
+        attribution="FWS",
+        format="image/png",
+        transparent=True,
+    ),
+    "FWS NWI Wetlands Raster": WMSLayer(
+        url="https://www.fws.gov/wetlands/arcgis/services/Wetlands_Raster/ImageServer/WMSServer?",
+        layers="0",
+        name="FWS NWI Wetlands Raster",
+        attribution="FWS",
+        format="image/png",
+        transparent=True,
+    ),
+    "OpenStreetMap": TileLayer(
+        url="https://c.tile.openstreetmap.org/${z}/${x}/${y}.png",
+        attribution="OSM",
+        name="OpenStreetMap",
+    ),
+    "NLCD 2016 CONUS Land Cover": WMSLayer(
+        url="https://www.mrlc.gov/geoserver/mrlc_display/NLCD_2016_Land_Cover_L48/wms?",
+        layers="NLCD_2016_Land_Cover_L48",
+        name="NLCD 2016 CONUS Land Cover",
+        attribution="MRLC",
+        format="image/png",
+        transparent=True,
+    ),
+    "USGS NAIP Imagery": WMSLayer(
+        url="https://services.nationalmap.gov/arcgis/services/USGSNAIPImagery/ImageServer/WMSServer?",
+        layers="0",
+        name="USGS NAIP Imagery",
+        attribution="USGS",
+        format="image/png",
+        transparent=True,
+    ),
+    "USGS Hydrography": WMSLayer(
+        url="https://basemap.nationalmap.gov/arcgis/services/USGSHydroCached/MapServer/WMSServer?",
+        layers="0",
+        name="USGS Hydrography",
+        attribution="USGS",
+        format="image/png",
+        transparent=True,
+    ),
+    "USGS 3DEP Elevation": WMSLayer(
+        url="https://elevation.nationalmap.gov/arcgis/services/3DEPElevation/ImageServer/WMSServer?",
+        layers="3DEPElevation:None",
+        name="USGS 3DEP Elevation",
+        attribution="USGS",
+        format="image/png",
+        transparent=True,
+    ),
+}
+
 
 def main_toolbar(m):
 
@@ -90,14 +195,13 @@ def main_toolbar(m):
             m.remove_control(output_ctrl)
     buttons.observe(button_click, "value")  
 
-         # Basemap Widget
-    from .basemaps import _ee_basemaps
 
+    # Basemap Widget
     dropdown_basemap = widgets.Dropdown(
-        options=list(_ee_basemaps.keys()),
+        options=list(ua_basemaps.keys()),
         value="HYBRID",
-        layout=widgets.Layout(width="200px"),
-        description="Basemaps",
+        layout=widgets.Layout(width="160px"),
+        #description="Basemaps",
     )
 
     close_button_basemap = widgets.Button(
@@ -116,7 +220,7 @@ def main_toolbar(m):
             old_basemap = m.layers[0]
         else:
             old_basemap = m.layers[1]
-        m.substitute_layer(old_basemap, _ee_basemaps[basemap_name])
+        m.substitute_layer(old_basemap, ua_basemaps[basemap_name])
 
     dropdown_basemap.observe(on_click, "value")
 
