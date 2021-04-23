@@ -15,6 +15,9 @@
 
 -   Reads image metadata and displays information important for UAS surveys
 -   Displays photo coordinates on a map embedded in a notebook
+-   Input single image or folder containing multiple images
+-   Folder inputs will calculate average, min, max altitude for project and range of timestamps
+-   Change basemaps and upload geojson or shapefiles to display map
 
 ![Demo](https://i.imgur.com/5GLSavr.jpg)
 
