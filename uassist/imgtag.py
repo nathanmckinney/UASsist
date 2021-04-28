@@ -55,12 +55,13 @@ def imgdir(folderpath):
     imghwlist = []
     makemodellist =[]
     coorddict = {}
+    global masterdict
+    masterdict = {}
     m = uassist.Map(google_map = "HYBRID", height="600px")
 
     for filename in os.listdir(folderpath):
         if filename.endswith(".jpg") or filename.endswith(".JPG"): 
             #print(os.path.join(folder, filename))cona
-            #print(filename)
             filepath = folderpath + "/" + filename
             f = open(filepath, 'rb')
             tags = exifread.process_file(f, details=False)
@@ -111,6 +112,8 @@ def imgdir(folderpath):
             message.value = (filename + "</br>" + str(gpsalt) + " m altitude" + "</br>" + str(datetimestr))
             
             marker.popup = message
+
+            masterdict[filename] = [latdd, longdd, gpsalt, datetimeobj, makemodel, imghw, xy, filepath]
             
 
             #print(filename + "- (" + str(latdd) + ", " + str(longdd) + ", " + str(gpsalt) + ")")
@@ -136,7 +139,7 @@ def imgdir(folderpath):
     print("Image resolution(s): " + str(imghwlist))
     print("Time range: " + str(mintime) + " - " + str(maxtime))
 
-
+    #print(masterdict)
 
 
     bounds = [[min(xlist),min(ylist)], [max(xlist), max(ylist)]] 
