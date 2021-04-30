@@ -30,6 +30,8 @@ def img_to_geojson(imgdict):
     gdf = df_to_gdf(df)
     gdf.to_file("imgs.geojson", driver='GeoJSON')
 
+    print('{} geotagged images saved to GeoJSON file'.format(len(gdf['geometry'])))
+
 def img_to_geopackage(imgdict):
     """Creates Geopackage file from image locations
 
@@ -40,16 +42,26 @@ def img_to_geopackage(imgdict):
     gdf = df_to_gdf(df)
     gdf.to_file("imgs.gpkg", layer='images', driver='GPKG')
 
+    print('{} geotagged images saved to GeoPackage file'.format(len(gdf['geometry'])))
+
 def img_to_shp(imgdict):
     df = dict_to_df(imgdict)
     for x in  df.select_dtypes(include=['datetime64']).columns.tolist(): df[x] = df[x].astype(str)
     gdf = df_to_gdf(df)
 
     gdf.to_file("imgs_shp.shp")
-    pass
+
+    print('{} geotagged images saved to shapefile'.format(len(gdf['geometry'])))
 
 def img_to_kml(imgdict):
-    pass
+    import fiona
+    df = dict_to_df(imgdict)
+    gdf = df_to_gdf(df)
+
+    fiona.supported_drivers['KML'] = 'rw'
+    gdf.to_file('images.kml', driver='KML')
+
+    print('{} geotagged images saved to KML file'.format(len(gdf['geometry'])))
 
 def imgdir_conv(folderpath):
 

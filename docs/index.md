@@ -18,6 +18,36 @@
 -   Input single image or folder containing multiple images
 -   Folder inputs will calculate average, min, max altitude for project and range of timestamps
 -   Change basemaps and upload geojson or shapefiles to display map
+-   Converts image locations and attributes to files:
+    -   CSV text
+    -   GEOJSON
+    -   KML
+    -   GEOPACKAGE
+    -   ESRI Shapefile
+-   TODO:
+    -   Create project metadata file
+    -   Separate images into sub project folders using breaks in timestamp
+    -   Create flight pattern lines
+    -   Check EXIF altitude over DEM elevation
+
+## Attribute File Structure
+    -   filename    
+    -   latdd   
+    -   longdd
+
+| ATTRIBUTE     | TYPE      | DESCRIPT         |
+| ------------- |:---------:| ----------------:|
+| filenname     | string    | image file name  |
+| latdd         | float     | Latitude in decimal degrees |
+| longdd        | float     | Longitude in decimal degrees |
+| altitude      | float     | Elevation from EXIF   |
+| datetime      | datetime or string  | date and time from EXIF  |
+| makemodel     | string    | make & model values of camera/UAS  |
+| height_width  | string    | image size in pixels formatted as 'HEIGHT x WIDTH'  |
+| xypair        | list or string |  X and Y values as list in single column |
+| filepath      | string    | full path of file including filename |
+| geometry      | geometry | Spatial type added for all functions where data is passed through GeoPandas |
+
 
 ![Demo](https://i.imgur.com/5GLSavr.jpg)
 
