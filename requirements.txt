@@ -1,7 +1,9 @@
+exifread
+earthengine-api
 folium
+geojson
+geopandas
 ipyleaflet
 ipyfilechooser
 pandas
 pyshp
-exifread
-earthengine-api
