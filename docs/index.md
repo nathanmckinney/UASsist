@@ -48,7 +48,7 @@
 | geometry      | geometry | Spatial type added for all functions where data is passed through GeoPandas |
 
 
-![Demo](https://i.imgur.com/5GLSavr.jpg)
+![Demo](https://i.imgur.com/I6A2mY8.gif)
 
 ## Credits
 
