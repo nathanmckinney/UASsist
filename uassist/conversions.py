@@ -21,6 +21,9 @@ def img_to_geojson(imgdict):
 def img_to_shp(imgdict):
     pass
 
+def img_to_kml(imgdict):
+    pass
+
 def imgdir_conv(folderpath):
 
     import os, exifread, datetime, uassist
