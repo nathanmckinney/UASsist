@@ -107,7 +107,7 @@ def dict_to_df(imgdict):
 
     return df
 
-def df_to_gdf:
+def df_to_gdf(df):
     import geopandas
 
     gdf = geopandas.GeoDataFrame(
