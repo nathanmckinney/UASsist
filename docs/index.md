@@ -29,11 +29,10 @@
     -   Separate images into sub project folders using breaks in timestamp
     -   Create flight pattern lines
     -   Check EXIF altitude over DEM elevation
+-   TODO eventually if possible:
+    -   Incorporate extended and non-standard EXIF tags for certain manufacturers
 
 ## Attribute File Structure
-    -   filename    
-    -   latdd   
-    -   longdd
 
 | ATTRIBUTE     | TYPE      | DESCRIPT         |
 | ------------- |:---------:| ----------------:|
