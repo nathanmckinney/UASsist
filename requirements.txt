@@ -1,6 +1,7 @@
 folium
 ipyleaflet
 ipyfilechooser
+pandas
 pyshp
 exifread
 earthengine-api

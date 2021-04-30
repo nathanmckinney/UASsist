@@ -8,6 +8,7 @@ from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, Measu
 from .imgtag import imgtag, imgdir
 from .common import ee_initialize
 from .toolbar import main_toolbar
+from .conversions import imgdir_conv
 
 class Map(ipyleaflet.Map):
     """Map class inherits the ipyleaflet map class

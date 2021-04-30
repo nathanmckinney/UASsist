@@ -55,8 +55,6 @@ def imgdir(folderpath):
     imghwlist = []
     makemodellist =[]
     coorddict = {}
-    global masterdict
-    masterdict = {}
     m = uassist.Map(google_map = "HYBRID", height="600px")
 
     for filename in os.listdir(folderpath):
@@ -113,7 +111,7 @@ def imgdir(folderpath):
             
             marker.popup = message
 
-            masterdict[filename] = [latdd, longdd, gpsalt, datetimeobj, makemodel, imghw, xy, filepath]
+            #masterdict[filename] = [latdd, longdd, gpsalt, datetimeobj, makemodel, imghw, xy, filepath]
             
 
             #print(filename + "- (" + str(latdd) + ", " + str(longdd) + ", " + str(gpsalt) + ")")
@@ -150,4 +148,4 @@ def imgdir(folderpath):
     #center = list(coorddict.get(res))[0:2]
     #print(center)
 
-    return(m)
+    return m
