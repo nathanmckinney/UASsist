@@ -1,18 +1,20 @@
 """Conversions Module
     """
 
-def img_to_csv(imgdict):
-    """creates CSV text file from image locations and attributes
+def img_to_csv(folderpath, fname):
+    """Create CSV file from image locations and attributes
 
     Args:
-        imgdict (dict): ictionary of image info as created in imgdir_conv module
+        folderpath (str): path to directory of images
+        fname (str): output name
     """    
+  
     import csv
     import pandas
 
-    df = dict_to_df(imgdict)
+    df = dict_to_df(folderpath)
 
-    df.to_csv('images.csv', index=False)
+    df.to_csv(fname, index=False)
 
     """
         with open('photos.csv', 'w', newline='') as file:
@@ -20,32 +22,41 @@ def img_to_csv(imgdict):
             writer = csv.DictWriter(file, fieldnames=fieldnames)
     """
 
-def img_to_geojson(imgdict):
-    """creates geojson file from image locations and attributes
+def img_to_geojson(folderpath, fname):
+    """Create GeoJSON from image locations and attributes
 
     Args:
-        imgdict (dict): Dictionary of image info as created in imgdir_conv module
-    """     
-    df = dict_to_df(imgdict)
+        folderpath (str): Path to directory of images
+        fname (string): Output filename
+    """ 
+
+    df = dict_to_df(folderpath)
     gdf = df_to_gdf(df)
-    gdf.to_file("imgs.geojson", driver='GeoJSON')
+    gdf.to_file(fname, driver='GeoJSON')
 
     print('{} geotagged images saved to GeoJSON file'.format(len(gdf['geometry'])))
 
-def img_to_geopackage(imgdict):
-    """Creates Geopackage file from image locations
+def img_to_geopackage(folderpath, fname):
+    """Geopackage file from image locations
 
     Args:
-        imgdict (dict): Dictionary of image info as created in imgdir_conv module
-    """    
-    df = dict_to_df(imgdict)
+        folderpath (str): Path to directory of images
+        fname (string): Output filename
+    """ 
+    df = dict_to_df(folderpath)
     gdf = df_to_gdf(df)
-    gdf.to_file("imgs.gpkg", layer='images', driver='GPKG')
+    gdf.to_file(fname, layer='images', driver='GPKG')
 
     print('{} geotagged images saved to GeoPackage file'.format(len(gdf['geometry'])))
 
-def img_to_shp(imgdict):
-    df = dict_to_df(imgdict)
+def img_to_shp(folderpath, fname):
+    """Create ESRI Shapefile from image locations and attributes
+
+    Args:
+        folderpath (str): Path to directory of images
+        fname (string): Output filename
+    """    
+    df = dict_to_df(folderpath)
     for x in  df.select_dtypes(include=['datetime64']).columns.tolist(): df[x] = df[x].astype(str)
     gdf = df_to_gdf(df)
 
@@ -53,17 +64,31 @@ def img_to_shp(imgdict):
 
     print('{} geotagged images saved to shapefile'.format(len(gdf['geometry'])))
 
-def img_to_kml(imgdict):
+def img_to_kml(folderpath, fname):
+    """Create KML file from image locations and attributes
+
+    Args:
+        folderpath (str): path to directory of images
+        fname (str): output filename
+    """    
     import fiona
-    df = dict_to_df(imgdict)
+    df = dict_to_df(folderpath)
     gdf = df_to_gdf(df)
 
     fiona.supported_drivers['KML'] = 'rw'
-    gdf.to_file('images.kml', driver='KML')
+    gdf.to_file(fname, driver='KML')
 
     print('{} geotagged images saved to KML file'.format(len(gdf['geometry'])))
 
-def imgdir_conv(folderpath):
+def imgdict(folderpath):
+    """Creates dictionary of info from image EXIF data
+
+    Args:
+        folderpath (str): path to directory of images
+
+    Returns:
+        dict: dictionary of metadata for each image. See docs for schema.
+    """    
 
     import os, exifread, datetime, uassist
     from exifread.utils import get_gps_coords
@@ -110,20 +135,39 @@ def imgdir_conv(folderpath):
 
     return masterdict
 
-def dict_to_df(imgdict):
+def dict_to_df(folderpath):
+    """Convert dictionary to Pandas Dataframe
+
+    Args:
+        folderpath (str): image directory path
+
+    Returns:
+        dataframe: a Pandas dataframe
+    """    
     import pandas
+
+    idict = imgdict(folderpath)
 
     cols = ['filename','latdd','longdd','altitude','datetime','makemodel','height_width','xy_pair','filepath']
 
-    df = pandas.DataFrame.from_dict(imgdict, orient='index', columns=cols)
+    df = pandas.DataFrame.from_dict(idict, orient='index', columns=cols)
 
     return df
 
 def df_to_gdf(df):
+    """converts dataframe to geodataframe
+
+    Args:
+        df (dataframe): a pandas dataframe
+
+    Returns:
+        geodataframe: geopandas spatially enabled dataframe
+    """    
     import geopandas
 
     gdf = geopandas.GeoDataFrame(
     df, geometry=geopandas.points_from_xy(df.longdd, df.latdd))
+    gdf = gdf.drop(columns=['xy_pair'])
 
     return gdf
 

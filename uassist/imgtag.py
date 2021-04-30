@@ -42,6 +42,15 @@ def imgtag(imgpath):
     return [latdd, longdd, gpsalt]
 
 def imgdir(folderpath):
+    """reads EXIF metadata from images in a single directory and ouputs a summary, map and warnings if applicable
+
+    Args:
+        folderpath (str): path to image directory
+
+    Returns:
+        map: ipyleaflet map
+    """    
+
 
     import os, exifread, ipyleaflet, datetime, uassist
     from exifread.utils import get_gps_coords
@@ -137,7 +146,14 @@ def imgdir(folderpath):
     print("Image resolution(s): " + str(imghwlist))
     print("Time range: " + str(mintime) + " - " + str(maxtime))
 
-    #print(masterdict)
+    if len(makemodellist) > 1:
+        print('*** WARNING: Multiple cameras in dataset ***')
+   
+    if (max(altlist) - min(altlist)) > (altavg * 0.1):
+        print('*** WARNING: Altitude variation exceed 10% of average altitude ***')
+
+    if len(imghwlist) > 1:
+        print('*** WARNING: Multiple image sizes in dataset ***')
 
 
     bounds = [[min(xlist),min(ylist)], [max(xlist), max(ylist)]] 

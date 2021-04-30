@@ -1,3 +1,6 @@
+"""Toolbar Module for controls in map interface
+    """
+    
 import os
 import ipywidgets as widgets
 from ipyleaflet import WidgetControl, TileLayer, WMSLayer, basemap_to_tiles
