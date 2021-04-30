@@ -1,12 +1,8 @@
+earthengine-api
 exifread
 geojson
+geopandas
 ipyleaflet
 ipyfilechooser
 pandas
 pyshp
-earthengine-api
-GDAL
-pyproj
-Fiona
-Shapely
-geopandas
