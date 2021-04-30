@@ -2,6 +2,11 @@
     """
 
 def img_to_csv(imgdict):
+    """creates CSV text file from image locations and attributes
+
+    Args:
+        imgdict (dict): ictionary of image info as created in imgdir_conv module
+    """    
     import csv
     import pandas
 
@@ -16,9 +21,31 @@ def img_to_csv(imgdict):
     """
 
 def img_to_geojson(imgdict):
-    pass
+    """creates geojson file from image locations and attributes
+
+    Args:
+        imgdict (dict): Dictionary of image info as created in imgdir_conv module
+    """     
+    df = dict_to_df(imgdict)
+    gdf = df_to_gdf(df)
+    gdf.to_file("imgs.geojson", driver='GeoJSON')
+
+def img_to_geopackage(imgdict):
+    """Creates Geopackage file from image locations
+
+    Args:
+        imgdict (dict): Dictionary of image info as created in imgdir_conv module
+    """    
+    df = dict_to_df(imgdict)
+    gdf = df_to_gdf(df)
+    gdf.to_file("imgs.gpkg", layer='images', driver='GPKG')
 
 def img_to_shp(imgdict):
+    df = dict_to_df(imgdict)
+    for x in  df.select_dtypes(include=['datetime64']).columns.tolist(): df[x] = df[x].astype(str)
+    gdf = df_to_gdf(df)
+
+    gdf.to_file("imgs_shp.shp")
     pass
 
 def img_to_kml(imgdict):
@@ -79,4 +106,19 @@ def dict_to_df(imgdict):
     df = pandas.DataFrame.from_dict(imgdict, orient='index', columns=cols)
 
     return df
+
+def df_to_gdf:
+    import geopandas
+
+    gdf = geopandas.GeoDataFrame(
+    df, geometry=geopandas.points_from_xy(df.longdd, df.latdd))
+
+    return gdf
+
+
+
+
+
+
+
 
