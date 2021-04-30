@@ -12,6 +12,11 @@ This is the preferred method to install uassist, as it will always install the m
 
 If you don't have [pip](https://pip.pypa.io) installed, this [Python installation guide](http://docs.python-guide.org/en/latest/starting/installation/) can guide you through the process.
 
+Or using Conda Forge:
+```
+conda install -c conda-forge uassist
+```
+
 ## From sources
 
 The sources for uassist can be downloaded from the Github repo.

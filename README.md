@@ -8,7 +8,7 @@
 
 
 -   Free software: GNU General Public License v3
--   Documentation: https://nathanmckinney.github.io/uassist
+-   Documentation: https://nathanmckinney.github.io/UASsist/
     
 
 ## Features

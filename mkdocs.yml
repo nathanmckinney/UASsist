@@ -47,6 +47,7 @@ nav:
     - API Reference:
           - uassist module: uassist.md
           - imgtag module: imgtag.md
+          - conversions module: conversions.md
     - Notebooks:
           - notebooks/imgtag_demo.ipynb
           - notebooks/imgdir_demo.ipynb
