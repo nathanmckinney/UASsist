@@ -144,7 +144,7 @@ def main_toolbar(m):
     cols = 2
     grid = widgets.GridspecLayout(rows, cols, grid_gap="0px", layout=widgets.Layout(width="62px"))
 
-    icons = ["folder-open", "map", "gears", "question"]
+    icons = ["folder-open", "map", "gears", "file"]
 
     for i in range(rows):
         for j in range(cols):
@@ -236,6 +236,43 @@ def main_toolbar(m):
     basemap_control = WidgetControl(widget=basemap_widget, position="topright")
     m.basemap_ctrl = basemap_control  
 
+    # Basemap Widget
+    dropdown_basemap = widgets.Dropdown(
+        options=list(ua_basemaps.keys()),
+        value="HYBRID",
+        layout=widgets.Layout(width="160px"),
+        #description="Basemaps",
+    )
+
+
+    fcc = FileChooser(data_dir)
+    fc.use_dir_icons = True
+    fc.filter_pattern = ['*.csv', '*.txt']
+
+    xcoord = widgets.Dropdown(options = ('X', 'Lat'), layout=widgets.Layout(width='80px'), description="X Column")
+    ycoord = widgets.Dropdown(options = ('Y', 'Long'), layout=widgets.Layout(width='80px'), description="X Column")
+    
+    #xcoord = widgets.Dropdown(options = list(csvcols(fcc.selected)), layout=widgets.Layout(width='80px'), description="X Column")
+
+    #ycoord = widgets.Dropdown(options = list(csvcols(fcc.selected)), layout=widgets.Layout(width='80px'), description="Y Column")
+
+    csvmap_widget = widgets.VBox(fcc, xcoord, ycoord)
+
+    def csvcols(fcc):
+        import pandas
+        with open(fcc) as csv_file:
+
+            csv_reader = csv.reader(csv_file, delimiter = ',')
+  
+            list_of_column_names = []
+  
+            for row in csv_reader:
+
+                list_of_column_names.append(row)
+                break
+
+
+
 
     def tool_click(b):    
         with output:
@@ -247,6 +284,11 @@ def main_toolbar(m):
             elif b.icon =="map":
                 display(basemap_widget)
                 m.add_control(basemap_control)
+            
+            elif b.icon =="file":
+                display(csvmap_widget)
+                m.add_control()
+
 
             elif b.icon == "gears":
                 import whiteboxgui.whiteboxgui as wbt
