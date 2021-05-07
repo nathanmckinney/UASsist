@@ -1,5 +1,7 @@
 """Conversions Module
     """
+import pandas, geopandas, csv, fiona
+
 
 def img_to_csv(folderpath, fname):
     """Create CSV file from image locations and attributes
@@ -71,7 +73,7 @@ def img_to_kml(folderpath, fname):
         folderpath (str): path to directory of images
         fname (str): output filename
     """    
-    import fiona
+    #import fiona
     df = dict_to_df(folderpath)
     gdf = df_to_gdf(df)
 
@@ -144,7 +146,7 @@ def dict_to_df(folderpath):
     Returns:
         dataframe: a Pandas dataframe
     """    
-    import pandas
+    #import pandas
 
     idict = imgdict(folderpath)
 
@@ -163,7 +165,7 @@ def df_to_gdf(df):
     Returns:
         geodataframe: geopandas spatially enabled dataframe
     """    
-    import geopandas
+    #import geopandas
 
     gdf = geopandas.GeoDataFrame(
     df, geometry=geopandas.points_from_xy(df.longdd, df.latdd))
@@ -172,7 +174,32 @@ def df_to_gdf(df):
     return gdf
 
 
+def csv_to_df(csvfile):
+    """Reads CSV file and converts to Pandas Dataframe
 
+    Args:
+        csvfile (.csv file): a comma separated values file with coordinates
+
+    Returns:
+        DataFrame: A Pandas DataFrame
+    """    
+    df = pandas.read_csv(csvfile)
+    return df
+
+def csvdf_to_geojson(df, xcol, ycol, fname):
+    """Converts DataFrame to GeoJSON file
+
+    Args:
+        df (DataFrame): A Pandas DataFrame
+        xcol (str): name of the X coordinate column
+        ycol (str): name of the Y coordinate column
+        fname (str): Filename of the output GeoJSON file
+    """    
+    coords = geopandas.points_from_xy(x=df[xcol], y=df[ycol])
+    gdf = geopandas.GeoDataFrame(df, geometry = coords)
+    gdf.to_file(fname, driver='GeoJSON')
+    print('{} features saved to GeoJSON file'.format(len(gdf['geometry'])))
+    
 
 
 

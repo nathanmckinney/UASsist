@@ -1,12 +1,13 @@
 """Toolbar Module for controls in map interface
     """
     
-import os
+import os, pandas
 import ipywidgets as widgets
-from ipyleaflet import WidgetControl, TileLayer, WMSLayer, basemap_to_tiles
+from ipyleaflet import WidgetControl, TileLayer, WMSLayer, basemap_to_tiles, Marker, MarkerCluster
 from ipyfilechooser import FileChooser
 import ipyleaflet.basemaps as ipybasemaps
 from IPython.display import display
+from .conversions import csv_to_df, csvdf_to_geojson
 
 
 ua_basemaps = {
@@ -180,16 +181,25 @@ def main_toolbar(m):
 
     fc = FileChooser(data_dir)
     fc.use_dir_icons = True
-    fc.filter_pattern = ['*.shp', '*.geojson']
+    fc.filter_pattern = ['*.shp', '*.geojson', '*.csv', '.txt']
 
     filechooser_widget = widgets.VBox([fc, buttons])
 
     def button_click(change):
+        """Button action that decides what function to apply based on file extension chosen
+
+        Args:
+            change (button action): Button clicked by user
+        """        
         if change["new"] == "Apply" and fc.selected is not None:
             if fc.selected.endswith(".shp"):
                 m.add_shapefile(fc.selected, layer_name="Shapefile")
             elif fc.selected.endswith(".geojson"):
                 m.add_geojson(fc.selected, layer_name="GeoJSON")
+            elif fc.selected.endswith(".csv") or fc.selected.endswith(".txt"):
+                df = csv_to_df(fc.selected)
+                csvjson = sel_xy_cols(df)
+
         elif change["new"] == "Reset":
             fc.reset()
         elif change["new"] == "Close":
@@ -245,34 +255,65 @@ def main_toolbar(m):
     )
 
 
-    fcc = FileChooser(data_dir)
-    fc.use_dir_icons = True
-    fc.filter_pattern = ['*.csv', '*.txt']
+    def sel_xy_cols(df):
+        """Selects X & Y columns in toolbar and contains functions for CSV plotting
 
-    xcoord = widgets.Dropdown(options = ('X', 'Lat'), layout=widgets.Layout(width='80px'), description="X Column")
-    ycoord = widgets.Dropdown(options = ('Y', 'Long'), layout=widgets.Layout(width='80px'), description="X Column")
-    
-    #xcoord = widgets.Dropdown(options = list(csvcols(fcc.selected)), layout=widgets.Layout(width='80px'), description="X Column")
+        Args:
+            df (dataframe): A pandas Dataframe containing coordinate columns
+        """        
 
-    #ycoord = widgets.Dropdown(options = list(csvcols(fcc.selected)), layout=widgets.Layout(width='80px'), description="Y Column")
+        xcoord = widgets.Dropdown(options = list(df.columns), value=None, layout=widgets.Layout(width='160px'), description="X Column")
+        ycoord = widgets.Dropdown(options = list(df.columns), value=None, layout=widgets.Layout(width='160px'), description="Y Column")
+        csvmap_widget = widgets.HBox([xcoord,ycoord])
 
-    csvmap_widget = widgets.VBox(fcc, xcoord, ycoord)
+        xybuttons = widgets.ToggleButtons(
+            value=None,
+            options=["Plot Points", "Plot Clusters"],
+            tooltips=["Display data as point markers", "Display as clustering points"],
+            button_style="primary",
+        )
+        xybuttons.style.button_width = "120px"
 
-    def csvcols(fcc):
-        import pandas
-        with open(fcc) as csv_file:
+        display(csvmap_widget)
+        display(xybuttons)
+        
+        def csvplot():
+            """Creates Markers at CSV points
+            """            
+            x = xcoord.value
+            y = ycoord.value
+        
+            for (index,row) in df.iterrows():
+                marker = Marker(location=[row.loc[x],row.loc[y]])
+                m.add_layer(marker)
+        
+        def csvplot_group():
+            """Creates grouping markers at CSV points
+            """            
+            x = xcoord.value
+            y = ycoord.value
 
-            csv_reader = csv.reader(csv_file, delimiter = ',')
-  
-            list_of_column_names = []
-  
-            for row in csv_reader:
+            markers = []
+        
+            for (index,row) in df.iterrows():
+                marker = Marker(location=[row.loc[x],row.loc[y]])
+                markers.append(marker)
+            
+            markercluster = MarkerCluster(markers=markers)
+            
+            m.add_layer(markercluster)
 
-                list_of_column_names.append(row)
-                break
+        def xybutton_click(change):
+            """Buttons for choosing points or grouping points to plot CSV
 
-
-
+            Args:
+                change (button action): triggers when button is clicked
+            """            
+            if change["new"] == "Plot Points":
+                csvplot()
+            elif change["new"] == "Plot Clusters":
+                csvplot_group()
+        xybuttons.observe(xybutton_click, "value")
 
     def tool_click(b):    
         with output:

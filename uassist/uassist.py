@@ -4,7 +4,7 @@ import os
 import ee
 import ipyleaflet
 
-from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker
+from ipyleaflet import Map, FullScreenControl, LayersControl, DrawControl, MeasureControl, ScaleControl, TileLayer, Marker, MarkerCluster
 from .imgtag import imgtag, imgdir
 from .common import ee_initialize
 from .toolbar import main_toolbar
